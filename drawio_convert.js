@@ -44,18 +44,15 @@ function xml_to_cheerio_elem(document_html) {
 };
 
 
-function main(root_path) {
-  let inflated_dir_path = path.join(root_path, 'inflated');
-  if(!fs.existsSync(inflated_dir_path))
-    fs.mkdirSync(inflated_dir_path);
-
-  const root_dir = '/Users/Jesse/Dropbox/diagrams/';
-  glob(`${root_dir}/**/*.xml`, function (er, paths) {
+function main(root_dir_path) {
+  glob(`${root_dir_path}/**/*.xml`, function (er, paths) {
     for(let i = 0; i < paths.length; i++) {
       const curr_path = paths[i];
-      let base_path = curr_path.split(root_dir)[1];
-      let new_path = path.join(root_dir, 'inflated', base_path)
-      inflate_file(paths[i], path.join(root_dir, 'inflated', base_path));
+      if(curr_path.indexOf('/inflated/') !== -1)
+        continue;
+      let base_path = curr_path.split(root_dir_path)[1];
+      let new_path = path.join(root_dir_path, 'inflated', base_path)
+      inflate_file(paths[i], path.join(root_dir_path, 'inflated', base_path));
     }
   });
 }
@@ -63,6 +60,7 @@ function main(root_path) {
 function inflate_file(orig_path, inflated_path) {
   shell.mkdir('-p', path.dirname(inflated_path));
 
+  console.log('reading:', orig_path);
   fs.readFile(orig_path, 'utf8', function(err, text) {
     let new_doc = xml_to_cheerio_elem(text);
     let html_string = new_doc.html();
@@ -77,7 +75,9 @@ function inflate_file(orig_path, inflated_path) {
 
     // console.log('transformed_str:', transformed_str);
     console.log('writing to:', inflated_path);
-    fs.writeFile(inflated_path, transformed_str, function() {});
+    fs.writeFile(inflated_path, transformed_str, function() {
+      console.log('wrote:', inflated_path);
+    });
   });
 }
 
