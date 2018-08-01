@@ -10,18 +10,18 @@ const shell = require('shelljs');
 
 
 function stringToBytes(str) {
-  var arr = new Array(str.length);
+  let arr = new Array(str.length);
 
-  for (var i = 0; i < str.length; i++)
+  for (let i = 0; i < str.length; i++)
     arr[i] = str.charCodeAt(i);
 
   return arr;
 }
 
 function bytesToString(arr) {
-  var str = '';
+  let str = '';
 
-  for (var i = 0; i < arr.length; i++)
+  for (let i = 0; i < arr.length; i++)
     str += String.fromCharCode(arr[i]);
 
   return str;
@@ -50,13 +50,13 @@ function xml_to_cheerio_elem(document_html) {
 
 
 function main(root_path) {
-  var inflated_dir_path = path.join(root_path, 'inflated');
+  let inflated_dir_path = path.join(root_path, 'inflated');
   if(!fs.existsSync(inflated_dir_path))
     fs.mkdirSync(inflated_dir_path);
 
   const root_dir = '/Users/Jesse/Dropbox/diagrams/';
   glob(`${root_dir}/**/*.xml`, function (er, paths) {
-    for(var i = 0; i < paths.length; i++) {
+    for(let i = 0; i < paths.length; i++) {
       const curr_path = paths[i];
       let base_path = curr_path.split(root_dir)[1];
       let new_path = path.join(root_dir, 'inflated', base_path)
@@ -69,8 +69,8 @@ function inflate_file(orig_path, inflated_path) {
   shell.mkdir('-p', path.dirname(inflated_path));
 
   fs.readFile(orig_path, 'utf8', function(err, text) {
-    var new_doc = xml_to_cheerio_elem(text);
-    var html_string = new_doc.html();
+    let new_doc = xml_to_cheerio_elem(text);
+    let html_string = new_doc.html();
 
     let initial_str = '<html><head></head><body>';
     let trailing_str = '</body></html>';
