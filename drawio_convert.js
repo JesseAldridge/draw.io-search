@@ -27,11 +27,6 @@ function bytesToString(arr) {
   return str;
 }
 
-
-function removeLinebreaks(data) {
-  document.getElementById('textarea').value = data.replace(/(\r\n|\n|\r)/gm, '');
-};
-
 function xml_to_cheerio_elem(document_html) {
   const doc_elem = cheerio.load(document_html);
   doc_elem('diagram').each(function(index) {
