@@ -7,6 +7,7 @@ const unescape = require('unescape');
 const path = require('path');
 const expand_home_dir = require('expand-home-dir');
 const shell = require('shelljs');
+const nuke_dir = require('rimraf');
 
 
 function stringToBytes(str) {
@@ -45,11 +46,11 @@ function xml_to_cheerio_elem(document_html) {
 
 
 function main(root_dir_path) {
+  console.log('removing:', path.join(root_dir_path, 'inflated'));
+  nuke_dir.sync(path.join(root_dir_path, 'inflated'));
   glob(`${root_dir_path}/**/*.xml`, function (er, paths) {
     for(let i = 0; i < paths.length; i++) {
       const curr_path = paths[i];
-      if(curr_path.indexOf('/inflated/') !== -1)
-        continue;
       let base_path = curr_path.split(root_dir_path)[1];
       let new_path = path.join(root_dir_path, 'inflated', base_path)
       inflate_file(paths[i], path.join(root_dir_path, 'inflated', base_path));
