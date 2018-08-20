@@ -8,6 +8,7 @@ const path = require('path');
 const expand_home_dir = require('expand-home-dir');
 const shell = require('shelljs');
 const nuke_dir = require('rimraf');
+const assert = require("assert")
 
 
 function stringToBytes(str) {
@@ -28,8 +29,9 @@ function bytesToString(arr) {
   return str;
 }
 
-function xml_to_cheerio_elem(document_html) {
+function xml_to_text(document_html) {
   const doc_elem = cheerio.load(document_html);
+  let all_cell_text = '';
   doc_elem('diagram').each(function(index) {
     let diagram_elem = cheerio(this);
     let diagram_text = diagram_elem.text();
@@ -39,21 +41,38 @@ function xml_to_cheerio_elem(document_html) {
     diagram_text = decodeURIComponent(diagram_text);
     diagram_text = unescape(diagram_text);
     diagram_text = pd.xml(diagram_text);
-    diagram_elem.html(diagram_text);
+
+    const inflated_diagram_elem = cheerio.load(diagram_text);
+    let cells = inflated_diagram_elem('mxcell').each(function(index) {
+      const mxcell_elem = cheerio(this);
+      const style = mxcell_elem.attr('style');
+      if(style && style.indexOf('image') != -1)
+        return;
+      all_cell_text += mxcell_elem.attr('value') + '\n';
+    });
   });
-  return doc_elem;
+
+  return all_cell_text;
 };
 
 
 function main(root_dir_path) {
-  console.log('removing:', path.join(root_dir_path, 'inflated'));
-  nuke_dir.sync(path.join(root_dir_path, 'inflated'));
-  glob(`${root_dir_path}/**/*.xml`, function (er, paths) {
+  const inflated_path = path.join(root_dir_path, 'inflated');
+  if (fs.existsSync(inflated_path)) {
+    assert(inflated_path.length > 10, 'inflated_path too short, not wiping');
+    console.log('wiping:', inflated_path);
+    nuke_dir.sync(inflated_path);
+  }
+  shell.mkdir('-p', inflated_path);
+
+  console.log(`converting all xml files at: ${root_dir_path}`)
+  glob(path.join(root_dir_path, '**/*.xml'), function (er, paths) {
     for(let i = 0; i < paths.length; i++) {
       const curr_path = paths[i];
+      console.log('curr_path:', curr_path);
       let base_path = curr_path.split(root_dir_path)[1];
       let new_path = path.join(root_dir_path, 'inflated', base_path)
-      inflate_file(paths[i], path.join(root_dir_path, 'inflated', base_path));
+      inflate_file(curr_path, path.join(root_dir_path, 'inflated', base_path));
     }
   });
 }
@@ -63,20 +82,9 @@ function inflate_file(orig_path, inflated_path) {
 
   console.log('reading:', orig_path);
   fs.readFile(orig_path, 'utf8', function(err, text) {
-    let new_doc = xml_to_cheerio_elem(text);
-    let html_string = new_doc.html();
-
-    let initial_str = '<html><head></head><body>';
-    let trailing_str = '</body></html>';
-
-    let transformed_str = html_string.substr(
-      initial_str.length,
-      html_string.length - initial_str.length - trailing_str.length
-    );
-
-    // console.log('transformed_str:', transformed_str);
+    let document_text = xml_to_text(text);
     console.log('writing to:', inflated_path);
-    fs.writeFile(inflated_path, transformed_str, function() {
+    fs.writeFile(inflated_path, document_text, function() {
       console.log('wrote:', inflated_path);
     });
   });
