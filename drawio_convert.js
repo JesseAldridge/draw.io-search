@@ -1,14 +1,15 @@
 const fs = require('fs');
+const path = require('path');
+const assert = require("assert")
+
 const pako = require('pako');
 const glob = require('glob');
 const cheerio = require('cheerio');
 const pd = require('pretty-data').pd;
 const unescape = require('unescape');
-const path = require('path');
 const expand_home_dir = require('expand-home-dir');
 const shell = require('shelljs');
 const nuke_dir = require('rimraf');
-const assert = require("assert")
 
 
 function stringToBytes(str) {
@@ -90,4 +91,4 @@ function inflate_file(orig_path, inflated_path) {
   });
 }
 
-main(expand_home_dir('~/Dropbox/diagrams/'));
+main(expand_home_dir(process.argv[2]));
