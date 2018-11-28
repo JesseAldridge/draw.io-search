@@ -5,7 +5,7 @@ Install dependencies:
 Convert the diagrams from base64 to plaintext:
 `node drawio_convert.js path/to/diagrams/`
 
-There should now be a directory called path/to/diagrams/infalted containing greppable versions of
+There should now be a directory called path/to/diagrams/inflated containing greppable versions of
 your documents.
 
 Included are two shortcut scripts which you can put on your `PATH` if you want (i.e. copy them to
