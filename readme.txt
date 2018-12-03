@@ -13,7 +13,7 @@ Included are two shortcut scripts which you can put on your `PATH` if you want (
 the appropriate paths for your computer.
 
 dgi is short for "diagram inflate"
-It simply runs the main script.
+It simply runs the main script, passing in your diagrams directory.
 
 dgs is short for "diagram search"
 This will search the decoded files using `ag` (`brew install the_silver_searcher`)
