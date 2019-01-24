@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/local/bin/python3
 import subprocess, os, glob, sys
 
 def main(query, dir_path):
