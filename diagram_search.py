@@ -47,5 +47,5 @@ def search_path(path, query):
   print('line count:', len(text.splitlines()))
 
 if __name__ == '__main__':
-  main('artist', '~/Dropbox/diagrams/inflated')
-  # main(' '.join(sys.argv[1:]), '~/Dropbox/diagrams/inflated')
+  # main('artist', '~/Dropbox/diagrams/inflated')
+  main(' '.join(sys.argv[1:]), '~/Dropbox/diagrams/inflated')
