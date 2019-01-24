@@ -1,4 +1,0 @@
-cd ~/Dropbox/diagrams/inflated
-echo "searching for" $1
-ag -i --context=1 "$1"
-find . | ag -i \b$1\b
