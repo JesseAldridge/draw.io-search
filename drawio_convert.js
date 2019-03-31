@@ -67,7 +67,13 @@ function main(root_dir_path) {
   shell.mkdir('-p', inflated_path);
 
   console.log(`converting all xml files at: ${root_dir_path}`)
-  glob(path.join(root_dir_path, '**/*.xml'), function (er, paths) {
+
+  inflate_all(root_dir_path, 'xml')
+  inflate_all(root_dir_path, 'drawio')
+}
+
+function inflate_all(root_dir_path, extension) {
+  glob(path.join(root_dir_path, '**/*.' + extension), function (er, paths) {
     for(let i = 0; i < paths.length; i++) {
       const curr_path = paths[i];
       console.log('curr_path:', curr_path);
@@ -77,6 +83,7 @@ function main(root_dir_path) {
     }
   });
 }
+
 
 function inflate_file(orig_path, inflated_path) {
   shell.mkdir('-p', path.dirname(inflated_path));
