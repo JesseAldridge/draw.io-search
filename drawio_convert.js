@@ -57,6 +57,8 @@ function xml_to_text(document_html) {
 
 
 function main(original_dir_path) {
+  console.log(`${new Date()} inflating all diagrams...`)
+
   const inflated_dir_path = expand_home_dir('~/inflated_diagrams');
   if (fs.existsSync(inflated_dir_path)) {
     assert(inflated_dir_path.length > 10, 'inflated_dir_path too short, not wiping');
