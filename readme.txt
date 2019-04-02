@@ -2,18 +2,11 @@
 Install dependencies:
 `npm install`
 
-Convert your diagrams from base64 to plaintext:
-`node drawio_convert.js path/to/diagrams/`
+Run the inflater loop in the background:
+`python background_inflater.py 2>&1 | tee ~/drawio_decode.log`
 
-There should now be a directory called path/to/diagrams/inflated containing greppable versions of
-your documents.
-
-Included are two shortcut scripts which you can put on your `PATH` if you want (i.e. copy them to
-`/usr/local/bin` or something like that). If you want to use them you'll need to modify them to use
-the appropriate paths for your computer.
-
-dgi is short for "diagram inflate"
-It simply runs the main script, passing in your diagrams directory.
+background_inflater.py runs drawio_convert.js
+drawio_convert.js reads all the drawio files in the path you specify, inflates the base64 encoding, and rewrites them in plaintext to another path you specify
 
 dgs is short for "diagram search"
 This will search the decoded files using `ag` (`brew install the_silver_searcher`)
