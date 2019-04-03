@@ -71,6 +71,8 @@ function main(original_dir_path) {
 
   inflate_all(original_dir_path, inflated_dir_path, 'xml')
   inflate_all(original_dir_path, inflated_dir_path, 'drawio')
+
+  console.log(`${new Date()} done`)
 }
 
 function inflate_all(original_dir_path, inflated_dir_path, extension) {
