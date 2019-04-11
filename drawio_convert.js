@@ -32,7 +32,8 @@ function bytesToString(arr) {
 function xml_to_text(document_html) {
   const doc_elem = cheerio.load(document_html);
   let all_cell_text = '';
-  doc_elem('diagram').each(function(index) {
+  doc_elem('diagram').each(function(diagram_index) {
+    all_cell_text += `diagram ${diagram_index}\n---\n`
     let diagram_elem = cheerio(this);
     let diagram_text = diagram_elem.text();
     diagram_text = Buffer.from(diagram_text, 'base64');
