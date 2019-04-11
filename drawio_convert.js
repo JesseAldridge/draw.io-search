@@ -10,6 +10,7 @@ const unescape_ = require('unescape');
 const expand_home_dir = require('expand-home-dir');
 const shell = require('shelljs');
 const nuke_dir = require('rimraf');
+const us = require("underscore.string");
 
 function stringToBytes(str) {
   let arr = new Array(str.length);
@@ -82,6 +83,7 @@ function inflate_all(original_dir_path, inflated_dir_path, extension) {
       const orig_file_path = paths[i];
       console.log('orig_file_path:', orig_file_path);
       let base_path = orig_file_path.split(original_dir_path)[1];
+      base_path = us(base_path).strLeftBack(".").value() + '.txt'
       let inflated_file_path = path.join(inflated_dir_path, base_path)
       inflate_file(orig_file_path, inflated_file_path);
     }

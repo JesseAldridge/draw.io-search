@@ -1,6 +1,8 @@
 cd ~/inflated_diagrams
 echo "searching for " $1 "..."
 echo ""
+ag -l "$1" | xargs -I {} ls $PWD/{}
+echo ""
 ag -i --context=1 "$1"
 echo ""
 echo "searching filenames..."
