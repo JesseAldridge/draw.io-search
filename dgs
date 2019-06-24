@@ -7,4 +7,5 @@ ag -i --context=2 "$1"
 echo ""
 echo "searching filenames..."
 echo ""
-find . | ag -i $1
+#              only search the basename, not the dirname
+find . | ag -i "/[^/]*$1[^/]*$"
