@@ -1,8 +1,13 @@
 
 Install dependencies:
 ```
+sudo npm install -g glob expand-home-dir #todo: better way?
 npm install
 brew install the_silver_searcher
+
+# copy scripts onto path
+cp dgs ~/Dropbox/bin
+cp search_diagrams.js ~/Dropbox/bin
 ```
 
 Run the inflater loop in the background:
