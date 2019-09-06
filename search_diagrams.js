@@ -33,7 +33,7 @@ content_matches.forEach(function(match) {
 
 // Search paths
 inflated_paths.forEach(function(path) {
-  // console.log('comparing against path:', path);
+  path = path.split(inflated_dir_path)[1];
   if(path.match(query_regex)) {
     let new_path = path.replace(/\.txt$/, '.drawio');
     new_path = new_path.replace(/\/inflated_diagrams\//, '/Dropbox/diagrams/');
