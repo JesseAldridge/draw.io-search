@@ -36,6 +36,7 @@ inflated_paths.forEach(function(path) {
   path = path.split(inflated_dir_path)[1];
   if(path.match(query_regex)) {
     let new_path = path.replace(/\.txt$/, '.drawio');
+    new_path = [inflated_dir_path, new_path].join('/');
     new_path = new_path.replace(/\/inflated_diagrams\//, '/Dropbox/diagrams/');
     console.log(new_path);
   }
