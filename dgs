@@ -1,11 +1,11 @@
 cd ~/inflated_diagrams
-echo "searching for " $1 "..."
+echo "searching for " $@ "..."
 echo ""
-ag -i --context=2 "$1"
+ag -i --context=2 "$@"
 echo ""
 echo "searching filenames..."
 echo ""
 #              only search the basename, not the dirname
 find . | ag -i "/[^/]*$1[^/]*$"
 echo "node search..."
-search_diagrams.js "$1"
+search_diagrams.js "$@"
