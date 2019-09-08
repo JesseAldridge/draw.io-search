@@ -1,7 +1,7 @@
 cd ~/inflated_diagrams
 echo "searching for " $@ "..."
 echo ""
-ag -i --context=2 "$@"
+ag -i --context=2 `sed 's/ /|/g' <<< $@`
 echo ""
 echo "searching filenames..."
 echo ""
