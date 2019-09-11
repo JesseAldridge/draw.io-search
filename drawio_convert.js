@@ -38,14 +38,20 @@ function xml_to_text(document_html) {
     let diagram_elem = cheerio(this);
     let diagram_text = diagram_elem.text();
     diagram_text = Buffer.from(diagram_text, 'base64');
-    diagram_text = pako.inflateRaw(diagram_text);
+    try {
+      diagram_text = pako.inflateRaw(diagram_text);
+    } catch(err) {
+      console.log('error in inflateRaw');
+      return;
+    }
+
     diagram_text = bytesToString(diagram_text);
 
     try {
       diagram_text = decodeURIComponent(diagram_text);
     }
     catch(err) {
-      console.log('error decoding');
+      console.log('error in decodeURIComponent');
       return;
     }
 
