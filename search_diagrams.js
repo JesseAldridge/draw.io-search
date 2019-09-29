@@ -41,7 +41,7 @@ inflated_paths.forEach(function(path_) {
       term_to_document_frequency[term] += 1;
     }
 
-    const term_score = term_frequency + path_score * 40;
+    const term_score = term_frequency + path_score * 80;
     term_to_score[term] = term_score;
     sum_term_score += term_score;
   });
