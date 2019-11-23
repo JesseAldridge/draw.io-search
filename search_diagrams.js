@@ -4,9 +4,11 @@ const path = require('path');
 
 const glob = require('glob');
 const expand_home_dir = require('expand-home-dir');
+const cheerio = require('cheerio')
+
 
 const inflated_dir_path = expand_home_dir('~/inflated_diagrams/');
-const inflated_paths = glob.sync(inflated_dir_path + '**/*.txt');
+const inflated_paths = glob.sync(inflated_dir_path + '**/*.xml');
 
 const query_terms = process.argv.slice(2);
 for(let i = 0; i < query_terms.length; i++)
@@ -17,12 +19,14 @@ const query_string = query_terms.join(' ');
 const matches = [];
 const term_to_document_frequency = {};
 inflated_paths.forEach(function(path_) {
-  const content = fs.readFileSync(path_, 'utf8').toLowerCase();
+  const content_xml = fs.readFileSync(path_, 'utf8');
+  const tab_elements = cheerio.load(content_xml);
+  debugger;
 
   let exact_match = false;
   const filename = path.basename(path_);
   console.log('filename:', filename.toLowerCase());
-  if(filename.toLowerCase() == query_string + '.txt')
+  if(filename.toLowerCase() == query_string + '.xml')
     exact_match = true;
 
   let sum_term_score = 0;
@@ -47,8 +51,7 @@ inflated_paths.forEach(function(path_) {
   });
 
   if(sum_term_score > 0) {
-    let new_path = path_.replace(/\.txt$/, '.drawio');
-    new_path = new_path.replace(/\/inflated_diagrams\//, '/Dropbox/diagrams/');
+    let new_path = path_.replace(/\/inflated_diagrams\//, '/Dropbox/diagrams/');
     matches.push({
       path: new_path,
       term_to_score: term_to_score,

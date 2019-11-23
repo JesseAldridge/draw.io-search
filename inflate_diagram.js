@@ -27,9 +27,8 @@ function bytesToString(arr) {
 
 function xml_to_text(document_html) {
   const doc_elem = cheerio.load(document_html);
-  let all_cell_text = '';
+  let all_diagram_xml = '';
   doc_elem('diagram').each(function(diagram_index) {
-    all_cell_text += `diagram ${diagram_index}\n---\n`
     let diagram_elem = cheerio(this);
     let diagram_text = diagram_elem.text();
     diagram_text = Buffer.from(diagram_text, 'base64');
@@ -52,18 +51,10 @@ function xml_to_text(document_html) {
 
     diagram_text = unescape_(diagram_text);
     diagram_text = pd.xml(diagram_text);
-
-    const inflated_diagram_elem = cheerio.load(diagram_text);
-    let cells = inflated_diagram_elem('mxcell').each(function(index) {
-      const mxcell_elem = cheerio(this);
-      const style = mxcell_elem.attr('style');
-      if(style && style.indexOf('image') != -1)
-        return;
-      all_cell_text += mxcell_elem.attr('value') + '\n';
-    });
+    all_diagram_xml += diagram_text + '\n';
   });
 
-  return all_cell_text;
+  return all_diagram_xml;
 };
 
 function inflate_diagram(orig_path, inflated_path) {
@@ -83,5 +74,5 @@ if(typeof(exports) != 'undefined')
   exports.inflate_diagram = inflate_diagram
 
 if(require.main === module) {
-  inflate_diagram('data/test.drawio', 'data/test-inflated.txt');
+  inflate_diagram('data/test.drawio', 'data/test-inflated.drawio');
 }
