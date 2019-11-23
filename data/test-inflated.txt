@@ -1,0 +1,16 @@
+diagram 0
+---
+undefined
+undefined
+this is a test diagram
+foo
+
+diagram 1
+---
+undefined
+undefined
+bar
+baz
+xyz
+
+
