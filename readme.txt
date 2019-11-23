@@ -1,7 +1,7 @@
 
 Install dependencies:
 ```
-sudo npm install -g glob expand-home-dir #todo: better way?
+sudo npm install -g glob expand-home-dir
 npm install
 brew install the_silver_searcher
 
