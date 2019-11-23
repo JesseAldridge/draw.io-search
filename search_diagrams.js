@@ -15,19 +15,35 @@ for(let i = 0; i < query_terms.length; i++)
   query_terms[i] = query_terms[i].toLowerCase();
 const query_string = query_terms.join(' ');
 
+// Build index
+const path_to_diagrams_to_cells = {}
+inflated_paths.forEach(function(path_) {
+  console.log('building index:', path_)
+  path_to_diagrams_to_cells[path_] = {}
+
+  const content_xml = fs.readFileSync(path_, 'utf8');
+  const graph_models = cheerio.load(content_xml);
+  graph_models('mxGraphModel').each(function(diagram_index) {
+    path_to_diagrams_to_cells[diagram_index] = {}
+
+    let diagram_elem = cheerio(this);
+    diagram_elem.find('mxCell').each(function(cell_index) {
+      path_to_diagrams_to_cells[diagram_index][cell_index] = cheerio(this);
+    })
+  })
+})
+
 // Search content
 const matches = [];
 const term_to_document_frequency = {};
 inflated_paths.forEach(function(path_) {
-  const content_xml = fs.readFileSync(path_, 'utf8');
-  const tab_elements = cheerio.load(content_xml);
-  debugger;
-
   let exact_match = false;
   const filename = path.basename(path_);
   console.log('filename:', filename.toLowerCase());
   if(filename.toLowerCase() == query_string + '.xml')
     exact_match = true;
+
+  const content_xml = fs.readFileSync(path_, 'utf8');
 
   let sum_term_score = 0;
   const term_to_score = {};
@@ -38,7 +54,21 @@ inflated_paths.forEach(function(path_) {
     if(relavent_part_of_path.toLowerCase().indexOf(term) != -1)
       path_score = 1;
 
-    const term_frequency = content.split(term).length - 1;
+    let term_frequency = 0;
+
+    Object.keys(path_to_diagrams_to_cells).forEach(function(path) {
+      const diagrams = path_to_diagrams_to_cells[path];
+      diagrams.forEach(function(diagram) {
+        diagram.forEach(function(cell) {
+          const content = cell_elem.attr('value')
+
+          if(!content)
+            return
+          term_frequency += content.split(term).length - 1;
+        })
+      })
+    })
+
     if(term_frequency > 0) {
       if(!term_to_document_frequency[term])
         term_to_document_frequency[term] = 0;
@@ -74,5 +104,5 @@ matches.sort(function(a,b) {
 });
 
 matches.forEach(function(match) {
-  console.log('match:', match.path, score(match).toFixed(2));
+  console.log('match:', match.path, score(match).toFixed(2), match.term_to_score);
 });
