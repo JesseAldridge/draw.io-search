@@ -27,10 +27,11 @@ function bytesToString(arr) {
 
 function diagram_xml_to_obj(document_html) {
   const doc_elem = cheerio.load(document_html);
-  let all_diagram_objs = []
+  let name_to_diagram = {}
   doc_elem('diagram').each(function(diagram_index) {
     let diagram_elem = cheerio(this);
     let diagram_text = diagram_elem.text();
+    let diagram_name = diagram_elem.attr('name')
     diagram_text = Buffer.from(diagram_text, 'base64');
     try {
       diagram_text = pako.inflateRaw(diagram_text);
@@ -53,16 +54,26 @@ function diagram_xml_to_obj(document_html) {
     diagram_text = pd.xml(diagram_text);
 
     const diagram_obj = {
-      text: diagram_text,
       cells: []
     }
-    all_diagram_objs.push(diagram_obj)
+    name_to_diagram[diagram_name] = diagram_obj
 
     const cells = diagram_obj.cells
-    diagram_elem.find('mxCell').each(function(cell_index) {
+    cheerio.load(diagram_text)('mxCell').each(function(cell_index) {
       const cell_elem = cheerio(this)
+
+      // skip images
+      const style = cell_elem.attr('style');
+      if(style && style.indexOf('image') != -1)
+        return
+
       const content = cell_elem.attr('value')
+
+      if(!content)
+        return
+
       const geometry_elem = cell_elem.find('mxGeometry')
+
       cells.push({
         text: content,
         x: geometry_elem.attr('x'),
@@ -71,17 +82,16 @@ function diagram_xml_to_obj(document_html) {
     })
   });
 
-  return all_diagram_objs;
+  return name_to_diagram;
 };
 
 function inflate_diagram(orig_path, inflated_path) {
   shell.mkdir('-p', path.dirname(inflated_path));
 
-  console.log('reading:', orig_path);
   fs.readFile(orig_path, 'utf8', function(err, text) {
-    let diagram = diagram_xml_to_obj(text);
+    let name_to_diagram = diagram_xml_to_obj(text);
     console.log('writing to:', inflated_path);
-    fs.writeFile(inflated_path, document_text, function() {
+    fs.writeFile(inflated_path, JSON.stringify(name_to_diagram, null, 2), function() {
       console.log('wrote:', inflated_path);
     });
   });
@@ -91,5 +101,5 @@ if(typeof(exports) != 'undefined')
   exports.inflate_diagram = inflate_diagram
 
 if(require.main === module) {
-  inflate_diagram('data/test.drawio', 'data/test-inflated.drawio');
+  inflate_diagram('data/test.drawio', 'data/test-inflated.json');
 }

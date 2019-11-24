@@ -35,7 +35,7 @@ function inflate_all(original_dir_path, inflated_dir_path, extension) {
       const orig_file_path = paths[i];
       console.log('orig_file_path:', orig_file_path);
       let base_path = orig_file_path.split(original_dir_path)[1];
-      base_path = us(base_path).strLeftBack(".").value() + '.xml'
+      base_path = us(base_path).strLeftBack(".").value() + '.json'
       let inflated_file_path = path.join(inflated_dir_path, base_path)
       inflate_diagram.inflate_diagram(orig_file_path, inflated_file_path);
     }

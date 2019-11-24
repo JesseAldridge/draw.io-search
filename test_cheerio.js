@@ -1,4 +1,10 @@
 
+cheerio = require('cheerio');
 
-const content_xml = fs.readFileSync('data/test-inflated.xml', 'utf8');
-const graph_models = cheerio.load(content_xml);
+const foo_elem = cheerio.load('<foo><bar>abc</bar></foo');
+
+// console.log(foo_elem.root().find('bar').text());
+// equivalent to:s
+console.log(foo_elem('bar').text());
+
+console.log(foo_elem.length);
