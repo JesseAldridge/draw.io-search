@@ -1,13 +1,12 @@
 
 Install dependencies:
 ```
-sudo npm install -g glob expand-home-dir
-npm install
+sudo npm install -g glob expand-home-dir cheerio
 brew install the_silver_searcher
 
-# copy scripts onto path
-cp dgs ~/Dropbox/bin
-cp search_diagrams.js ~/Dropbox/bin
+# put scripts on path (this is how I do it)
+ln /Users/jessealdridge/Dropbox/drawio_decode/dgs /Users/jessealdridge/Dropbox/bin/dgs
+ln /Users/jessealdridge/Dropbox/drawio_decode/search_diagrams /Users/jessealdridge/Dropbox/bin/search_diagrams
 ```
 
 Run the inflater loop in the background:
