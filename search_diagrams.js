@@ -71,7 +71,8 @@ inflated_paths.forEach(function(path_) {
   });
 
   if(sum_term_score > 0) {
-    let new_path = path_.replace(/\/inflated_diagrams\//, '/Dropbox/diagrams/');
+    let new_path = path_.replace(/\.json$/, '.drawio');
+    new_path = new_path.replace(/\/inflated_diagrams\//, '/Dropbox/diagrams/');
     matches.push({
       path: new_path,
       term_to_score: term_to_score,
