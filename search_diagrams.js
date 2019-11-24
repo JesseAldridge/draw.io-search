@@ -50,11 +50,7 @@ inflated_paths.forEach(function(path_) {
         if(cell_match_count > 0) {
           if(!tab_to_matching_cells[tab_name])
             tab_to_matching_cells[tab_name] = []
-          tab_to_matching_cells[tab_name].push({
-            // x: cell.x,
-            // y: cell.y,
-            excerpt: cell.text.substr(0, 10)
-          })
+          tab_to_matching_cells[tab_name].push(cell.text.substr(0, 40))
         }
       })
     })
