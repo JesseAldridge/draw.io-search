@@ -7,7 +7,7 @@ const shell = require('shelljs');
 const cheerio = require('cheerio');
 const unescape_ = require('unescape');
 
-const stem = require('./stem.js')
+const stem_words = require('./stem_words.js')
 
 
 function stringToBytes(str) {
@@ -78,7 +78,7 @@ function diagram_xml_to_obj(document_html) {
       const geometry_elem = cell_elem.find('mxGeometry')
 
       cells.push({
-        text: stem.stem(content).join(' '),
+        text: stem_words.stem_words(content).join(' '),
         x: geometry_elem.attr('x'),
         y: geometry_elem.attr('y'),
       })
