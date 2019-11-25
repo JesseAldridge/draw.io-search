@@ -6,6 +6,8 @@ const glob = require('glob');
 const expand_home_dir = require('expand-home-dir');
 const cheerio = require('cheerio')
 
+const stemmer = require('./PorterStemmer1980.js')
+
 
 const inflated_dir_path = expand_home_dir('~/inflated_diagrams/');
 const inflated_paths = glob.sync(inflated_dir_path + '**/*.json');
@@ -35,7 +37,7 @@ inflated_paths.forEach(function(path_) {
   query_terms.forEach(function(term) {
     let path_score = 0 // in the term in the path of the .drawio file
     let term_frequency = 0 // the number of times the term occurs in the .drawio file
-    const tab_to_matching_cells = term_to_tab_to_matching_cells[term] = {}
+    const tab_to_matching_cells = {}
 
     const relavent_part_of_path = path_.split(inflated_dir_path)[1];
     if(relavent_part_of_path.toLowerCase().indexOf(term) != -1)
@@ -45,6 +47,8 @@ inflated_paths.forEach(function(path_) {
     tab_names.forEach(function(tab_name) {
       tab = name_to_diagram[tab_name]
       tab.cells.forEach(function(cell) {
+        stemmer(cell.text)
+
         const cell_match_count = cell.text.split(term).length - 1
         term_frequency += cell_match_count;
         if(cell_match_count > 0) {
@@ -59,6 +63,7 @@ inflated_paths.forEach(function(path_) {
       if(!term_to_document_frequency[term])
         term_to_document_frequency[term] = 0;
       term_to_document_frequency[term] += 1;
+      term_to_tab_to_matching_cells[term] = tab_to_matching_cells
     }
 
     const term_score = term_frequency + path_score * 80;

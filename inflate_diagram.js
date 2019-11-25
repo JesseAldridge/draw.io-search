@@ -83,7 +83,7 @@ function diagram_xml_to_obj(document_html) {
   });
 
   return name_to_diagram;
-};
+}
 
 function inflate_diagram(orig_path, inflated_path) {
   shell.mkdir('-p', path.dirname(inflated_path));
@@ -101,5 +101,9 @@ if(typeof(exports) != 'undefined')
   exports.inflate_diagram = inflate_diagram
 
 if(require.main === module) {
-  inflate_diagram('data/test.drawio', 'data/test-inflated.json');
+  inflate_diagram(
+    '/Users/jessealdridge/Dropbox/diagrams/buy-company.drawio',
+    'data/buy-company.json',
+  )
+  // inflate_diagram('data/test.drawio', 'data/test-inflated.json');
 }
