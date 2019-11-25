@@ -6,13 +6,15 @@ const glob = require('glob');
 const expand_home_dir = require('expand-home-dir');
 const cheerio = require('cheerio')
 
+const stemmer = require('./PorterStemmer1980.js')
+
 
 const inflated_dir_path = expand_home_dir('~/inflated_diagrams/');
 const inflated_paths = glob.sync(inflated_dir_path + '**/*.json');
 
 const query_terms = process.argv.slice(2);
 for(let i = 0; i < query_terms.length; i++)
-  query_terms[i] = query_terms[i].toLowerCase();
+  query_terms[i] = stemmer.stemmer(query_terms[i].toLowerCase());
 const query_string = query_terms.join(' ');
 
 

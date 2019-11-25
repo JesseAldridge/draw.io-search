@@ -7,21 +7,7 @@ const shell = require('shelljs');
 const cheerio = require('cheerio');
 const unescape_ = require('unescape');
 
-const stemmer = require('./PorterStemmer1980.js')
-
-function stem(text) {
-  NON_WORD_REGEX = /[0-9\W_]+/g
-
-  const words = text.split(/ +/)
-  const stemmed_words = []
-  for(let i = 0; i < words.length; i++) {
-    const clean_word = words[i].replace(NON_WORD_REGEX, '')
-    const stem = stemmer.stemmer(clean_word)
-    stemmed_words.push(stem)
-  }
-
-  return stemmed_words
-}
+const stem = require('./stem.js')
 
 
 function stringToBytes(str) {
@@ -92,7 +78,7 @@ function diagram_xml_to_obj(document_html) {
       const geometry_elem = cell_elem.find('mxGeometry')
 
       cells.push({
-        text: stem(content).join(' '),
+        text: stem.stem(content).join(' '),
         x: geometry_elem.attr('x'),
         y: geometry_elem.attr('y'),
       })
