@@ -2,20 +2,12 @@
   "Tab 1": {
     "cells": [
       {
-        "text": [
-          "thi",
-          "is",
-          "a",
-          "test",
-          "diagram"
-        ],
+        "text": "thi is a test diagram",
         "x": "284",
         "y": "160"
       },
       {
-        "text": [
-          "foo"
-        ],
+        "text": "foo",
         "x": "309",
         "y": "228"
       }
@@ -24,23 +16,17 @@
   "Tab 2": {
     "cells": [
       {
-        "text": [
-          "bar"
-        ],
+        "text": "bar",
         "x": "278",
         "y": "327"
       },
       {
-        "text": [
-          "baz"
-        ],
+        "text": "baz",
         "x": "392",
         "y": "321"
       },
       {
-        "text": [
-          "xyz"
-        ],
+        "text": "xyz",
         "x": "455",
         "y": "288"
       }

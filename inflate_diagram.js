@@ -92,7 +92,7 @@ function diagram_xml_to_obj(document_html) {
       const geometry_elem = cell_elem.find('mxGeometry')
 
       cells.push({
-        text: stem(content),
+        text: stem(content).join(' '),
         x: geometry_elem.attr('x'),
         y: geometry_elem.attr('y'),
       })
