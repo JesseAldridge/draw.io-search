@@ -6,8 +6,6 @@ const glob = require('glob');
 const expand_home_dir = require('expand-home-dir');
 const cheerio = require('cheerio')
 
-const stemmer = require('./PorterStemmer1980.js')
-
 
 const inflated_dir_path = expand_home_dir('~/inflated_diagrams/');
 const inflated_paths = glob.sync(inflated_dir_path + '**/*.json');
@@ -16,6 +14,7 @@ const query_terms = process.argv.slice(2);
 for(let i = 0; i < query_terms.length; i++)
   query_terms[i] = query_terms[i].toLowerCase();
 const query_string = query_terms.join(' ');
+
 
 // Search content
 const matches = [];
@@ -47,7 +46,7 @@ inflated_paths.forEach(function(path_) {
     tab_names.forEach(function(tab_name) {
       tab = name_to_diagram[tab_name]
       tab.cells.forEach(function(cell) {
-        stemmer(cell.text)
+        // cell.text
 
         const cell_match_count = cell.text.split(term).length - 1
         term_frequency += cell_match_count;

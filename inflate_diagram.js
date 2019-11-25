@@ -7,6 +7,23 @@ const shell = require('shelljs');
 const cheerio = require('cheerio');
 const unescape_ = require('unescape');
 
+const stemmer = require('./PorterStemmer1980.js')
+
+function stem(text) {
+  NON_WORD_REGEX = /[0-9\W_]+/g
+
+  const words = text.split(/ +/)
+  const stemmed_words = []
+  for(let i = 0; i < words.length; i++) {
+    const clean_word = words[i].replace(NON_WORD_REGEX, '')
+    const stem = stemmer.stemmer(clean_word)
+    stemmed_words.push(stem)
+  }
+
+  return stemmed_words
+}
+
+
 function stringToBytes(str) {
   let arr = new Array(str.length);
 
@@ -75,7 +92,7 @@ function diagram_xml_to_obj(document_html) {
       const geometry_elem = cell_elem.find('mxGeometry')
 
       cells.push({
-        text: content,
+        text: stem(content),
         x: geometry_elem.attr('x'),
         y: geometry_elem.attr('y'),
       })
@@ -101,9 +118,5 @@ if(typeof(exports) != 'undefined')
   exports.inflate_diagram = inflate_diagram
 
 if(require.main === module) {
-  inflate_diagram(
-    '/Users/jessealdridge/Dropbox/diagrams/buy-company.drawio',
-    'data/buy-company.json',
-  )
-  // inflate_diagram('data/test.drawio', 'data/test-inflated.json');
+  inflate_diagram('data/test.drawio', 'data/test-inflated.json');
 }
