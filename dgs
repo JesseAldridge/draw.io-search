@@ -1,9 +1,9 @@
-cd ~/Dropbox/diagrams
+cd /
 echo ""
 echo "searching filenames..."
 echo ""
 #              only search the basename, not the dirname
-find . | ag -i "/[^/]*$1[^/]*$"
+find ~/Dropbox/diagrams | ag -i "/[^/]*$1[^/]*$"
 cd ~/inflated_diagrams
 echo "node search..."
 search_diagrams.js "$@"
