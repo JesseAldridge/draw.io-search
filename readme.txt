@@ -1,12 +1,11 @@
 
 The script assumes your diagrams are stored at `~/Dropbox/diagrams`
 
-Install dependencies:
 ```
+# install dependencies
 sudo npm install -g glob expand-home-dir cheerio
-brew install the_silver_searcher
 
-# put scripts on path (I have ~/Dropbox/bin in my path)
+# put scripts on path (I have `export PATH=$PATH:~/Dropbox/bin` in my `.bash_profile`)
 ln -s /Users/jessealdridge/Dropbox/drawio_decode/dgs /Users/jessealdridge/Dropbox/bin/dgs
 ln -s /Users/jessealdridge/Dropbox/drawio_decode/search_diagrams /Users/jessealdridge/Dropbox/bin/search_diagrams
 ```
