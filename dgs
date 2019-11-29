@@ -1,11 +1,9 @@
-cd ~/inflated_diagrams
-echo "searching for " $@ "..."
-echo ""
-ag -i --context=2 `sed 's/ /|/g' <<< $@`
+cd ~/Dropbox/diagrams
 echo ""
 echo "searching filenames..."
 echo ""
 #              only search the basename, not the dirname
 find . | ag -i "/[^/]*$1[^/]*$"
+cd ~/inflated_diagrams
 echo "node search..."
 search_diagrams.js "$@"

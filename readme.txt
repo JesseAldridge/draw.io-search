@@ -1,4 +1,6 @@
 
+The script assumes your diagrams are stored at `~/Dropbox/diagrams`
+
 Install dependencies:
 ```
 sudo npm install -g glob expand-home-dir cheerio
