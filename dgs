@@ -1,3 +1,4 @@
+PREV_DIR=$(cwd)
 cd /
 echo ""
 echo "searching filenames..."
@@ -7,3 +8,4 @@ find ~/Dropbox/diagrams | ag -i "/[^/]*$1[^/]*$"
 cd ~/inflated_diagrams
 echo "node search..."
 search_diagrams.js "$@"
+cd $PREV_DIR
