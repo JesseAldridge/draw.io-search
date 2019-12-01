@@ -1,4 +1,4 @@
-PREV_DIR=$(cwd)
+PREV_DIR=$(pwd)
 cd /
 echo ""
 echo "searching filenames..."
