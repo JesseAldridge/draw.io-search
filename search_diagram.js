@@ -11,7 +11,7 @@ function search_diagram(inflated_dir_path, path_, query_terms, term_to_document_
     name_to_diagram = JSON.parse(diagrams_json)
   }
   catch(e) {
-    console.log('failed to parse json:', diagrams_json)
+    console.log('failed to parse json:', path_)
     return
   }
 
@@ -43,7 +43,7 @@ function search_diagram(inflated_dir_path, path_, query_terms, term_to_document_
       tab = name_to_diagram[tab_name]
       tab.cells.forEach(function(cell) {
         // tokens are stemmed during inflation
-        const cell_tokens = cell.text.split()
+        const cell_tokens = cell.text.split(' ')
         let cell_match_count = 0
         cell_tokens.forEach(function(cell_token) {
           if(cell_token == query_term)

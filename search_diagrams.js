@@ -24,6 +24,7 @@ console.log('query terms:', query_terms)
 const matches = [];
 const term_to_document_frequency = {};
 inflated_paths.forEach(function(path_) {
+  console.log('searching:', path_)
   const match = search_diagram.search_diagram(
     inflated_dir_path,
     path_,
