@@ -6,7 +6,14 @@ const stem_words = require('./stem_words.js');
 function search_diagram(inflated_dir_path, path_, query_terms, term_to_document_frequency) {
   // diagram refers to a tab within a .drawio file
   const diagrams_json = fs.readFileSync(path_, 'utf8');
-  const name_to_diagram = JSON.parse(diagrams_json)
+  let name_to_diagram = null
+  try {
+    name_to_diagram = JSON.parse(diagrams_json)
+  }
+  catch(e) {
+    console.log('failed to parse json:', diagrams_json)
+    return
+  }
 
   // e.g. data-chop/data_chop.json
   const relavent_part_of_path = inflated_dir_path ? path_.split(inflated_dir_path)[1] : path_;
@@ -35,11 +42,12 @@ function search_diagram(inflated_dir_path, path_, query_terms, term_to_document_
     tab_names.forEach(function(tab_name) {
       tab = name_to_diagram[tab_name]
       tab.cells.forEach(function(cell) {
-        // cell.text
-
-        const cell_tokens = stem_words.stem_words(cell.text)
+        // tokens are stemmed during inflation
+        const cell_tokens = cell.text.split()
         let cell_match_count = 0
         cell_tokens.forEach(function(cell_token) {
+          if(cell_token.indexOf('whol') == 0)
+            console.log('cell_token:', cell_token)
           if(cell_token == query_term)
             cell_match_count += 1
         })
