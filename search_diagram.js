@@ -46,8 +46,6 @@ function search_diagram(inflated_dir_path, path_, query_terms, term_to_document_
         const cell_tokens = cell.text.split()
         let cell_match_count = 0
         cell_tokens.forEach(function(cell_token) {
-          if(cell_token.indexOf('whol') == 0)
-            console.log('cell_token:', cell_token)
           if(cell_token == query_term)
             cell_match_count += 1
         })
