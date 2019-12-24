@@ -22,7 +22,8 @@ const stem_words = (function() {
     for(let i = 0; i < tokens.length; i++) {
       if(!word_to_stem[tokens[i]]) {
         // word_to_stem[tokens[i]] = stemmer.stemmer(tokens[i])
-        word_to_stem[tokens[i]] = natural.LancasterStemmer.stem(tokens[i])
+        const stem = tokens[i].length > 3 ? natural.LancasterStemmer.stem(tokens[i]) : tokens[i]
+        word_to_stem[tokens[i]] = stem
       }
       stemmed_words.push(word_to_stem[tokens[i]])
     }
