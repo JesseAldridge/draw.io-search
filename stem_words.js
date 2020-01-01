@@ -1,8 +1,8 @@
 // const stemmer = require('./PorterStemmer1980.js')
 const natural = require('natural');
 
-function tokenize(text) {
-  const re = /([A-Za-z']+)/g
+function tokenize_words(text) {
+  const re = /([A-Za-z'&]+)/g
   let m = null;
   const tokens = []
   do {
@@ -17,12 +17,12 @@ const stem_words = (function() {
   const word_to_stem = {}
 
   return function(text) {
-    const tokens = tokenize(text)
+    const tokens = tokenize_words(text)
     const stemmed_words = []
     for(let i = 0; i < tokens.length; i++) {
       if(!word_to_stem[tokens[i]]) {
         // word_to_stem[tokens[i]] = stemmer.stemmer(tokens[i])
-        const stem = tokens[i].length > 3 ? natural.LancasterStemmer.stem(tokens[i]) : tokens[i]
+        const stem = natural.LancasterStemmer.stem(tokens[i])
         word_to_stem[tokens[i]] = stem
       }
       stemmed_words.push(word_to_stem[tokens[i]])

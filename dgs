@@ -9,3 +9,8 @@ cd ~/inflated_diagrams
 echo "node search..."
 search_diagrams.js "$@"
 cd $PREV_DIR
+
+case $(ps -o stat= -p $$) in
+  *+*) ;;
+  *) echo "Warning: ran in background due to '&' character" ;;
+esac
