@@ -5,7 +5,6 @@ const expand_home_dir = require('expand-home-dir');
 // const stemmer = require('./PorterStemmer1980.js')
 const natural = require('natural');
 
-
 const search_diagram = require('./search_diagram.js')
 
 
